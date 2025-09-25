@@ -12,7 +12,7 @@ void main() {
 
 // Mood Model - The "Brain" of our app
 class MoodModel with ChangeNotifier {
-  String _currentMood = '😊';
+  String _currentMoodImage = 'assets/images/Happy.png';
   Color _backgroundColor = Colors.yellow;
   Map<String, int> _moodCounts = {
     'Happy': 0,
@@ -20,26 +20,26 @@ class MoodModel with ChangeNotifier {
     'Excited': 0,
   };
 
-  String get currentMood => _currentMood;
+  String get currentMoodImage => _currentMoodImage;
   Color get backgroundColor => _backgroundColor;
   Map<String, int> get moodCounts => _moodCounts;
 
   void setHappy() {
-    _currentMood = '😊';
+    _currentMoodImage = 'assets/images/Happy.png';
     _backgroundColor = Colors.yellow;
     _moodCounts['Happy'] = _moodCounts['Happy']! + 1;
     notifyListeners();
   }
 
   void setSad() {
-    _currentMood = '😢';
+    _currentMoodImage = 'assets/images/Sad.png';
     _backgroundColor = Colors.blue;
     _moodCounts['Sad'] = _moodCounts['Sad']! + 1;
     notifyListeners();
   }
 
   void setExcited() {
-    _currentMood = '🎉';
+    _currentMoodImage = 'assets/images/Excited.png';
     _backgroundColor = Colors.orange;
     _moodCounts['Excited'] = _moodCounts['Excited']! + 1;
     notifyListeners();
@@ -93,7 +93,11 @@ class MoodDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MoodModel>(
       builder: (context, moodModel, child) {
-        return Text(moodModel.currentMood, style: TextStyle(fontSize: 100));
+        return Image.asset(
+          moodModel.currentMoodImage,
+          width: 100,
+          height: 100,
+        );
       },
     );
   }
@@ -110,19 +114,52 @@ class MoodButtons extends StatelessWidget {
           onPressed: () {
             Provider.of<MoodModel>(context, listen: false).setHappy();
           },
-          child: Text('Happy 😊'),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/Happy.png',
+                width: 24,
+                height: 24,
+              ),
+              SizedBox(width: 5),
+              Text('Happy'),
+            ],
+          ),
         ),
         ElevatedButton(
           onPressed: () {
             Provider.of<MoodModel>(context, listen: false).setSad();
           },
-          child: Text('Sad 😢'),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/Sad.png',
+                width: 24,
+                height: 24,
+              ),
+              SizedBox(width: 5),
+              Text('Sad'),
+            ],
+          ),
         ),
         ElevatedButton(
           onPressed: () {
             Provider.of<MoodModel>(context, listen: false).setExcited();
           },
-          child: Text('Excited 🎉'),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/Excited.png',
+                width: 24,
+                height: 24,
+              ),
+              SizedBox(width: 5),
+              Text('Excited'),
+            ],
+          ),
         ),
       ],
     );
@@ -150,19 +187,31 @@ class MoodCounter extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Text('😊', style: TextStyle(fontSize: 24)),
+                      Image.asset(
+                        'assets/images/Happy.png',
+                        width: 32,
+                        height: 32,
+                      ),
                       Text('${moodModel.moodCounts['Happy']}', style: TextStyle(fontSize: 16)),
                     ],
                   ),
                   Column(
                     children: [
-                      Text('😢', style: TextStyle(fontSize: 24)),
+                      Image.asset(
+                        'assets/images/Sad.png',
+                        width: 32,
+                        height: 32,
+                      ),
                       Text('${moodModel.moodCounts['Sad']}', style: TextStyle(fontSize: 16)),
                     ],
                   ),
                   Column(
                     children: [
-                      Text('🎉', style: TextStyle(fontSize: 24)),
+                      Image.asset(
+                        'assets/images/Excited.png',
+                        width: 32,
+                        height: 32,
+                      ),
                       Text('${moodModel.moodCounts['Excited']}', style: TextStyle(fontSize: 16)),
                     ],
                   ),
